@@ -120,7 +120,10 @@ def ievadit_uzd(x_nr, funkc_nr, ierob_nr, x_pulp, x_sympy, f_pulp, f_sympy, stri
                         for j in range(x_nr):                
                             koef = merka_koefs[i,j]
                             koef = [parse_expr(k) for k in koef]
-                            c_sympy[i].append(Piecewise((0, x <= koef[0]), (koef[1] * x + koef[2], ((koef[3] <= x) & (x <= koef[4]))), (koef[5] * x + koef[6], ((koef[7] <= x) & (x <= koef[8]))), (0, koef[9] <= x)))
+                            c_sympy[i].append(Piecewise((0, x <= koef[0]), 
+                                                        (koef[1] * x + koef[2], ((koef[3] <= x) & (x <= koef[4]))), 
+                                                        (koef[5] * x + koef[6], ((koef[7] <= x) & (x <= koef[8]))), 
+                                                        (0, koef[9] <= x)))
                             c_ij[0,i,j], c_ij[1,i,j] = solve(c_sympy[i][j] - alfa)
     
     
@@ -424,7 +427,8 @@ f_sympy = [f"f_{i+1}" for i in range(funkc_nr)]
 # ===================================================
 if piemers == False:
     window_mainigie.close()
-    f_pulp, f_sympy, constraints, constraints_sympy = ievadit_uzd(x_nr, funkc_nr, ierob_nr, x_pulp, x_sympy, f_pulp, f_sympy, strikti, alfa)
+    f_pulp, f_sympy, constraints, constraints_sympy = ievadit_uzd(x_nr, funkc_nr, ierob_nr, x_pulp, x_sympy, 
+                                                                  f_pulp, f_sympy, strikti, alfa)
     
 else:
     if strikti:
@@ -449,10 +453,22 @@ else:
         constraints_sympy = []
         x = Symbol("x", real = True)
         
-        c_11 = Piecewise((0, x <= -2), (x + 2, ((-2 <= x) & (x <= -1))), (-x, ((-1 <= x) & (x <= 0))), (0, 0 <= x)) 
-        c_12 = Piecewise((0, x <= 1), (x - 1, ((1 <= x) & (x <= 2))), (-x + 3, ((2 <= x) & (x <= 3))), (0, 3 <= x))  
-        c_21 = Piecewise((0, x <= 1), (x - 1, ((1 <= x) & (x <= 2))), (-x + 3, ((2 <= x) & (x <= 3))), (0, 3 <= x))  
-        c_22 = Piecewise((0, x <= 0), (x, ((0 <= x) & (x <= 1))), (2 - x, ((1 <= x) & (x <= 2))), (0, 2 <= x))
+        c_11 = Piecewise((0, x <= -2), 
+                         (x + 2, ((-2 <= x) & (x <= -1))), 
+                         (-x, ((-1 <= x) & (x <= 0))), 
+                         (0, 0 <= x)) 
+        c_12 = Piecewise((0, x <= 1), 
+                         (x - 1, ((1 <= x) & (x <= 2))), 
+                         (-x + 3, ((2 <= x) & (x <= 3))), 
+                         (0, 3 <= x))  
+        c_21 = Piecewise((0, x <= 1), 
+                         (x - 1, ((1 <= x) & (x <= 2))), 
+                         (-x + 3, ((2 <= x) & (x <= 3))), 
+                         (0, 3 <= x))  
+        c_22 = Piecewise((0, x <= 0), 
+                         (x, ((0 <= x) & (x <= 1))), 
+                         (2 - x, ((1 <= x) & (x <= 2))), 
+                         (0, 2 <= x))
         
         c_11_k, c_11_l = solve(c_11 - alfa)
         c_12_k, c_12_l = solve(c_12 - alfa)
